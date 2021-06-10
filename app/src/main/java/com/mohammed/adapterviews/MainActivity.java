@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_CHECK_BOX = "EXTRA_CHECK_BOX";
     public static final String EXTRA_POSITION = "EXTRA_POSITION";
 
-    // تعيين نوع افترضية
+    // تعيين نوع افترضي  للملاحضة
     private String noteType = AddNewNoteActivity.ACTIVITY_NOTE_TYPE_NOTE;
 
     ArrayList<ItemViewNote> mItems;
