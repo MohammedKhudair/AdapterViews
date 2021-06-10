@@ -15,7 +15,7 @@
         <activity android:name=".NotesDetails.NoteCheckDetailsActivity" />
         <activity android:name=".NotesDetails.NoteDetailsActivity" />
         <activity android:name=".AddNewNoteActivity" android:screenOrientation="locked" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:screenOrientation="locked">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
