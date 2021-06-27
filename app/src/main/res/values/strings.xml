@@ -7,4 +7,9 @@
     <string name="choosePhoto">اختر صوره</string>
     <string name="failed_to_get_Image">فشل في الوصول الى الصوره</string>
     <string name="delete_confirmation">هل انت متاكد من ازالة الملاحضة من القائمه 🤔</string>
+    <string name="cancel">الغاء</string>
+    <string name="delete">حذف</string>
+    <string name="no_data_selected">لم يتم اختيار اي بيانات</string>
+    <string name="make_sure_to_write_a_note">تاكد من كتابة ملاحضة</string>
+    <string name="make_sure_to_write_a_note_and_photo">تاكد من كتابة ملاحضة واستيراد صورة</string>
 </resources>

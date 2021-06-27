@@ -172,7 +172,7 @@ public class AddNewNoteActivity extends AppCompatActivity {
                 setResult(RESULT_OK, data);
                 finish();
             } else
-                Toast.makeText(this, "تاكد من كتابة ملاحضة", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.make_sure_to_write_a_note, Toast.LENGTH_SHORT).show();
 
         } else if (binding.radioButtonCheckNote.isChecked()) {
             if (!checkEditText.equals("")) {
@@ -183,7 +183,7 @@ public class AddNewNoteActivity extends AppCompatActivity {
                 setResult(RESULT_OK, data);
                 finish();
             } else
-                Toast.makeText(this, "تاكد من كتابة ملاحضة", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.make_sure_to_write_a_note, Toast.LENGTH_SHORT).show();
 
 
         } else if (binding.radioButtonPhoto.isChecked()) {
@@ -195,7 +195,7 @@ public class AddNewNoteActivity extends AppCompatActivity {
                 setResult(RESULT_OK, data);
                 finish();
             } else
-                Toast.makeText(this, "تاكد من كتابة ملاحضة واستيراد صورة", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.make_sure_to_write_a_note_and_photo, Toast.LENGTH_SHORT).show();
 
         }
 

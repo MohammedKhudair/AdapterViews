@@ -50,6 +50,7 @@ public class NoteCheckDetailsActivity extends AppCompatActivity {
     // تاكيد وارسال البيانات للنشاط
     private void editNote() {
         String noteText = binding.checkNoteEditText.getText().toString();
+        boolean checkBox = binding.checkNoteCheckBox.isChecked();
         if (!noteText.equals("")) {
             Intent intent = new Intent();
             intent.putExtra(Constants.NOTE_TEXT, noteText);

@@ -17,5 +17,7 @@ public class ItemViewCheckBox extends ItemViewNote {
         return checked;
     }
 
-
+    public void setChecked(boolean checked) {
+        this.checked = checked;
+    }
 }

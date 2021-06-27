@@ -27,6 +27,7 @@
         android:gravity="center"
         android:text="@string/add_new_item_description"
         android:textSize="18sp"
+        android:textColor="#848E93"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +51,7 @@
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:onClick="setNoteColorBackground"
-            android:button="@drawable/radio_button_blue"
+            android:background="@drawable/radio_button_blue"
             android:checked="true" />
 
         <RadioButton
@@ -60,7 +61,7 @@
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:onClick="setNoteColorBackground"
-            android:button="@drawable/radio_button_yellow"
+            android:background="@drawable/radio_button_yellow"
             android:checked="false" />
 
         <RadioButton
@@ -70,7 +71,7 @@
             android:layout_margin="4dp"
             android:layout_weight="1"
             android:onClick="setNoteColorBackground"
-            android:button="@drawable/radio_button_red" />
+            android:background="@drawable/radio_button_red" />
 
     </RadioGroup>
 

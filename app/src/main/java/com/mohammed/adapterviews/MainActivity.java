@@ -21,6 +21,7 @@ import com.mohammed.adapterviews.data.ItemViewCheckBox;
 import com.mohammed.adapterviews.data.ItemViewNote;
 import com.mohammed.adapterviews.data.ItemViewPhoto;
 import com.mohammed.adapterviews.databinding.ActivityMainBinding;
+import com.mohammed.adapterviews.listener.CheckBoxListener;
 import com.mohammed.adapterviews.listener.ItemClickListener;
 import com.mohammed.adapterviews.listener.ItemLongClickListener;
 
@@ -64,7 +65,16 @@ public class MainActivity extends AppCompatActivity {
             public void onLongClickItem(int position) {
                 deleteNote(position);
             }
+        }, new CheckBoxListener() {
+            @Override
+            public void onCheckBox(int position, boolean isCheck) {
+                ItemViewCheckBox itemViewCheckBox = (ItemViewCheckBox) mItems.get(position);
+                itemViewCheckBox.setChecked(isCheck);
+                mItems.remove(position);
+                mItems.add(position,itemViewCheckBox);
+            }
         });
+
         binding.recyclerViewPhotos.setAdapter(mAdapter);
         binding.recyclerViewPhotos.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
@@ -97,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 boolean checkBox = data.getBooleanExtra(Constants.NOTE_CHECK_BOX, false);
                 // وضع نتائج البيانات المعادة من النشاط
                 putDataResult(photoUri, noteText, noteColor, checkBox, noteType);
-            } else Toast.makeText(this, "لم يتم اختيار اي بيانات", Toast.LENGTH_SHORT).show();
+            } else Toast.makeText(this, R.string.no_data_selected, Toast.LENGTH_SHORT).show();
 
             //هنا نستلم البيانات من النشاط المراد تعديله
         } else if (requestCode == NOTE_DETAILS_ACTIVITY_REQUEST) {
@@ -163,16 +173,16 @@ public class MainActivity extends AppCompatActivity {
     private void deleteNote(int position) {
         AlertDialog alertDialog = new AlertDialog.Builder(this)
                 .setMessage(R.string.delete_confirmation)
-                .setTitle("حذف")
+                .setTitle(R.string.delete)
                 .setIcon(R.drawable.ic_delete)
-                .setPositiveButton("حذف", new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         mItems.remove(position);
                         mAdapter.notifyItemRemoved(position);
                     }
                 })
-                .setNegativeButton("الغاء", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         dialogInterface.dismiss();

@@ -10,12 +10,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AdapterViews">
+        android:theme="@style/AppTheme">
         <activity android:name=".NotesDetails.NotePhotoDetailsActivity"></activity>
         <activity android:name=".NotesDetails.NoteCheckDetailsActivity" />
         <activity android:name=".NotesDetails.NoteDetailsActivity" />
-        <activity android:name=".AddNewNoteActivity" android:screenOrientation="locked" />
-        <activity android:name=".MainActivity" android:screenOrientation="locked">
+        <activity android:name=".AddNewNoteActivity" android:screenOrientation="locked"  />
+        <activity android:name=".MainActivity" android:screenOrientation="locked" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.mohammed.adapterviews.R;
 import com.mohammed.adapterviews.data.ItemViewCheckBox;
 import com.mohammed.adapterviews.data.ItemViewNote;
 import com.mohammed.adapterviews.data.ItemViewPhoto;
+import com.mohammed.adapterviews.listener.CheckBoxListener;
 import com.mohammed.adapterviews.listener.ItemClickListener;
 import com.mohammed.adapterviews.listener.ItemLongClickListener;
 
@@ -29,11 +31,13 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     ItemClickListener itemClickListener;
     ItemLongClickListener itemLongClickListener;
+    CheckBoxListener checkBoxListener;
 
-    public NotesAdapter(ArrayList<ItemViewNote> mItems, ItemClickListener itemClickListener, ItemLongClickListener itemLongClickListener) {
+    public NotesAdapter(ArrayList<ItemViewNote> mItems, ItemClickListener itemClickListener, ItemLongClickListener itemLongClickListener,CheckBoxListener checkBoxListener) {
         this.mItems = mItems;
         this.itemClickListener = itemClickListener;
         this.itemLongClickListener = itemLongClickListener;
+        this.checkBoxListener = checkBoxListener;
     }
   // نقوم بعمل  inflate على حسب نوع العنصر
     @NonNull
@@ -45,7 +49,7 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return new PhotoViewHolder(view, itemClickListener, itemLongClickListener);
         } else if (viewType == ITEM_VIEW_TYPE_CHECK_BOX) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note_check, parent, false);
-            return new CheckBoxViewHolder(view, itemClickListener, itemLongClickListener);
+            return new CheckBoxViewHolder(view, itemClickListener, itemLongClickListener,checkBoxListener);
         } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
             return new NoteViewHolder(view, itemClickListener, itemLongClickListener);
@@ -124,7 +128,7 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         CheckBox checkBox;
         int position;
 
-        public CheckBoxViewHolder(@NonNull View itemView, ItemClickListener itemClickListener, ItemLongClickListener itemLongClickListener) {
+        public CheckBoxViewHolder(@NonNull View itemView, ItemClickListener itemClickListener, ItemLongClickListener itemLongClickListener,CheckBoxListener checkBoxListener) {
             super(itemView);
             linearLayoutCheck = itemView.findViewById(R.id.LinearLayoutCheckBox);
             textCheck = itemView.findViewById(R.id.textView_Checkbox);
@@ -141,6 +145,12 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 public boolean onLongClick(View view) {
                     itemLongClickListener.onLongClickItem(position);
                     return true;
+                }
+            });
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                    checkBoxListener.onCheckBox(position,isChecked);
                 }
             });
         }
