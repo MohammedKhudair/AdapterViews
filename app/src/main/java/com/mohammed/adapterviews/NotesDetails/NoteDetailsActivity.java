@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.mohammed.adapterviews.AddNewNoteActivity;
 import com.mohammed.adapterviews.Constants;
 import com.mohammed.adapterviews.MainActivity;
 import com.mohammed.adapterviews.R;
@@ -16,8 +17,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
     ActivityNoteDetailsBinding binding;
     String noteText;
     int noteColor;
-    int position;
-
+    int noteId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class NoteDetailsActivity extends AppCompatActivity {
         binding = ActivityNoteDetailsBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        setTitle("Edit note");
 
         // الحصول علي البيانات المرسلة من نشاط
         Intent intent = getIntent();
@@ -33,7 +34,8 @@ public class NoteDetailsActivity extends AppCompatActivity {
             binding.noteEditText.setText(noteText);
             noteColor = intent.getIntExtra(MainActivity.EXTRA_COLOR, 0);
             binding.NoteConstraintLayout.setBackgroundColor(noteColor);
-            position = intent.getIntExtra(MainActivity.EXTRA_POSITION, 0);
+            noteId = intent.getIntExtra(MainActivity.EXTRA_NOTE_ID,-1);
+
         }
 
         binding.noteEditButton.setOnClickListener(new View.OnClickListener() {
@@ -52,7 +54,9 @@ public class NoteDetailsActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.putExtra(Constants.NOTE_TEXT, noteText);
             intent.putExtra(Constants.NOTE_COLOR, noteColor);
-            intent.putExtra(Constants.ITEM_POSITION, position);
+            intent.putExtra(Constants.NOTE_TYPE, AddNewNoteActivity.ACTIVITY_NOTE_TYPE_NOTE);
+            intent.putExtra(Constants.NOTE_ID,noteId);
+
             setResult(RESULT_OK, intent);
             finish();
         } else

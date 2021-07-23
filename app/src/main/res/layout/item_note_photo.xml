@@ -1,33 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="itemViewPhototh"
+            type="com.mohammed.adapterviews.data.entity.ItemViewPhoto" />
+    </data>
+
+<androidx.cardview.widget.CardView
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="8dp">
 
     <LinearLayout
         android:id="@+id/LinearLayoutPhoto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@{itemViewPhototh.noteColor}">
 
         <ImageView
             android:id="@+id/item_photo_imageView"
             android:layout_width="match_parent"
             android:layout_height="180dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@drawable/ic_photo" />
+            app:srcCompat="@drawable/ic_photo"
+            app:setImage="@{itemViewPhototh.imageUri}"/>
 
         <TextView
             android:id="@+id/textView_Photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
+            android:text="@{itemViewPhototh.noteText}"
             tools:text="textView"
             android:textSize="18sp"
             android:gravity="start|top" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
+</layout>

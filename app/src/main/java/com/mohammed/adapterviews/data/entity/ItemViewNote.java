@@ -1,21 +1,37 @@
-package com.mohammed.adapterviews.data;
+package com.mohammed.adapterviews.data.entity;
 
-import android.net.Uri;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 import com.mohammed.adapterviews.AddNewNoteActivity;
 import com.mohammed.adapterviews.R;
 
 import java.util.ArrayList;
 
+@Entity(tableName = "item_view_note")
 public class ItemViewNote {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+    @ColumnInfo(name = "note_text")
     private String noteText;
+    @ColumnInfo(name = "note_color")
     private int noteColor;
+    @ColumnInfo(name = "note_type")
     private String noteType;
 
     public ItemViewNote(String noteText, int noteColor, String noteType) {
         this.noteText = noteText;
         this.noteColor = noteColor;
         this.noteType = noteType;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNoteText() {
@@ -30,10 +46,4 @@ public class ItemViewNote {
         return noteType;
     }
 
-    // اضافة بيانات افتراضية الى القائمة
-    public static ArrayList<ItemViewNote> getDefaultList() {
-        ArrayList<ItemViewNote> list = new ArrayList<>();
-        list.add(new ItemViewCheckBox("تعلم كورس جديد على منصة برمج, والقاء نضره على التحديثات الجديدة", R.color.blue, AddNewNoteActivity.ACTIVITY_NOTE_TYPE_CHECK_NOTE, true));
-        return list;
-    }
 }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.mohammed.adapterviews.AddNewNoteActivity;
 import com.mohammed.adapterviews.Constants;
 import com.mohammed.adapterviews.MainActivity;
 import com.mohammed.adapterviews.R;
@@ -18,7 +19,8 @@ public class NoteCheckDetailsActivity extends AppCompatActivity {
     boolean checkBox;
     String noteText;
     int noteColor;
-    int position;
+    int noteId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +28,10 @@ public class NoteCheckDetailsActivity extends AppCompatActivity {
         binding = ActivityNoteCheckDetailsBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        setTitle("Edit note");
 
-     // الحصول علي البيانات المرسلة من نشاط
+
+        // الحصول علي البيانات المرسلة من نشاط
         Intent intent = getIntent();
         if (intent != null) {
             noteText = intent.getStringExtra(MainActivity.EXTRA_NOTE_TEXT);
@@ -36,7 +40,7 @@ public class NoteCheckDetailsActivity extends AppCompatActivity {
             binding.checkNoteCheckBox.setChecked(checkBox);
             noteColor = intent.getIntExtra(MainActivity.EXTRA_COLOR, 0);
             binding.CheckBoxConstraintLayout.setBackgroundColor(noteColor);
-            position = intent.getIntExtra(MainActivity.EXTRA_POSITION, 0);
+            noteId = intent.getIntExtra(MainActivity.EXTRA_NOTE_ID,-1);
 
         }
         binding.noteEditButton.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +60,8 @@ public class NoteCheckDetailsActivity extends AppCompatActivity {
             intent.putExtra(Constants.NOTE_TEXT, noteText);
             intent.putExtra(Constants.NOTE_CHECK_BOX, checkBox);
             intent.putExtra(Constants.NOTE_COLOR, noteColor);
-            intent.putExtra(Constants.ITEM_POSITION, position);
+            intent.putExtra(Constants.NOTE_TYPE, AddNewNoteActivity.ACTIVITY_NOTE_TYPE_CHECK_NOTE);
+            intent.putExtra(Constants.NOTE_ID,noteId);
             setResult(RESULT_OK, intent);
             finish();
         } else

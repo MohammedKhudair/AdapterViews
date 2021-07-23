@@ -37,6 +37,7 @@ public class AddNewNoteActivity extends AppCompatActivity {
         binding = ActivityAddNewNoteBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        setTitle("Add note");
 
         // القيمة الافتراضية للون
         noteColor = getResources().getColor(R.color.blue);

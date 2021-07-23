@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.mohammed.adapterviews.AddNewNoteActivity;
 import com.mohammed.adapterviews.Constants;
 import com.mohammed.adapterviews.MainActivity;
 import com.mohammed.adapterviews.R;
@@ -25,7 +26,7 @@ public class NotePhotoDetailsActivity extends AppCompatActivity {
     Uri uri;
     String noteText;
     int noteColor;
-    int position;
+    int noteId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class NotePhotoDetailsActivity extends AppCompatActivity {
         binding = ActivityNotePhotoDetailsBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+        setTitle("Edit note");
 
         // الحصول علي البيانات المرسلة من نشاط
         Intent intent = getIntent();
@@ -43,7 +45,7 @@ public class NotePhotoDetailsActivity extends AppCompatActivity {
             binding.photoNoteEditText.setText(noteText);
             noteColor = intent.getIntExtra(MainActivity.EXTRA_COLOR, 0);
             binding.PhotoRelativeLayout.setBackgroundColor(noteColor);
-            position = intent.getIntExtra(MainActivity.EXTRA_POSITION, 0);
+            noteId = intent.getIntExtra(MainActivity.EXTRA_NOTE_ID,-1);
         }
 
         binding.photoImageView.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +71,9 @@ public class NotePhotoDetailsActivity extends AppCompatActivity {
             intent.putExtra(Constants.EXTRA_PHOTO_URI, uri);
             intent.putExtra(Constants.NOTE_TEXT, noteText);
             intent.putExtra(Constants.NOTE_COLOR, noteColor);
-            intent.putExtra(Constants.ITEM_POSITION, position);
+            intent.putExtra(Constants.NOTE_TYPE, AddNewNoteActivity.ACTIVITY_NOTE_TYPE_PHOTO_NOTE);
+            intent.putExtra(Constants.NOTE_ID,noteId);
+
             setResult(RESULT_OK, intent);
             finish();
         } else

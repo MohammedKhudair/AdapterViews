@@ -1,5 +1,6 @@
 package com.mohammed.adapterviews.adapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,49 +11,58 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mohammed.adapterviews.BR;
 import com.mohammed.adapterviews.R;
-import com.mohammed.adapterviews.data.ItemViewCheckBox;
-import com.mohammed.adapterviews.data.ItemViewNote;
-import com.mohammed.adapterviews.data.ItemViewPhoto;
+import com.mohammed.adapterviews.data.entity.ItemViewCheckBox;
+import com.mohammed.adapterviews.data.entity.ItemViewNote;
+import com.mohammed.adapterviews.data.entity.ItemViewPhoto;
+import com.mohammed.adapterviews.databinding.ItemNoteBinding;
+import com.mohammed.adapterviews.databinding.ItemNoteCheckBinding;
+import com.mohammed.adapterviews.databinding.ItemNotePhotoBinding;
 import com.mohammed.adapterviews.listener.CheckBoxListener;
 import com.mohammed.adapterviews.listener.ItemClickListener;
 import com.mohammed.adapterviews.listener.ItemLongClickListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int ITEM_VIEW_TYPE_PHOTO = 0;
     private static final int ITEM_VIEW_TYPE_CHECK_BOX = 1;
     private static final int ITEM_VIEW_TYPE_NOTE = 2;
 
-    ArrayList<ItemViewNote> mItems;
+    private Context mContext;
+    private List<ItemViewNote> mItems;
 
     ItemClickListener itemClickListener;
     ItemLongClickListener itemLongClickListener;
     CheckBoxListener checkBoxListener;
 
-    public NotesAdapter(ArrayList<ItemViewNote> mItems, ItemClickListener itemClickListener, ItemLongClickListener itemLongClickListener,CheckBoxListener checkBoxListener) {
+    public NotesAdapter(Context context, List<ItemViewNote> mItems, ItemClickListener itemClickListener, ItemLongClickListener itemLongClickListener, CheckBoxListener checkBoxListener) {
+        this.mContext = context;
         this.mItems = mItems;
         this.itemClickListener = itemClickListener;
         this.itemLongClickListener = itemLongClickListener;
         this.checkBoxListener = checkBoxListener;
     }
-  // نقوم بعمل  inflate على حسب نوع العنصر
+
+    // نقوم بعمل  inflate على حسب نوع العنصر
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
         if (viewType == ITEM_VIEW_TYPE_PHOTO) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note_photo, parent, false);
-            return new PhotoViewHolder(view, itemClickListener, itemLongClickListener);
+            ItemNotePhotoBinding binding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.item_note_photo, parent, false);
+            return new PhotoViewHolder(binding, itemClickListener, itemLongClickListener);
         } else if (viewType == ITEM_VIEW_TYPE_CHECK_BOX) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note_check, parent, false);
-            return new CheckBoxViewHolder(view, itemClickListener, itemLongClickListener,checkBoxListener);
+            ItemNoteCheckBinding binding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.item_note_check, parent, false);
+            return new CheckBoxViewHolder(binding, itemClickListener, itemLongClickListener, checkBoxListener);
         } else {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_note, parent, false);
-            return new NoteViewHolder(view, itemClickListener, itemLongClickListener);
+            ItemNoteBinding binding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.item_note, parent, false);
+            return new NoteViewHolder(binding, itemClickListener, itemLongClickListener);
         }
     }
 
@@ -64,25 +74,19 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         switch (holder.getItemViewType()) {
             case ITEM_VIEW_TYPE_PHOTO: {
                 PhotoViewHolder photoViewHolder = (PhotoViewHolder) holder;
-                photoViewHolder.photoImageView.setImageURI(((ItemViewPhoto) itemViewNote).getImageUri());
-                photoViewHolder.textPhoto.setText(itemViewNote.getNoteText());
-                photoViewHolder.linearLayoutPhoto.setBackgroundColor(itemViewNote.getNoteColor());
-                photoViewHolder.position = position;
+                ItemViewPhoto itemViewPhoto = (ItemViewPhoto) itemViewNote;
+                photoViewHolder.bind(itemViewPhoto, position);
                 break;
             }
             case ITEM_VIEW_TYPE_CHECK_BOX: {
                 CheckBoxViewHolder checkBoxViewHolder = (CheckBoxViewHolder) holder;
-                checkBoxViewHolder.checkBox.setChecked(((ItemViewCheckBox) itemViewNote).isChecked());
-                checkBoxViewHolder.textCheck.setText(itemViewNote.getNoteText());
-                checkBoxViewHolder.linearLayoutCheck.setBackgroundColor(itemViewNote.getNoteColor());
-                checkBoxViewHolder.position = position;
+                ItemViewCheckBox itemViewCheckBox = (ItemViewCheckBox) itemViewNote;
+                checkBoxViewHolder.bind(itemViewCheckBox, position);
                 break;
             }
             case ITEM_VIEW_TYPE_NOTE: {
                 NoteViewHolder noteViewHolder = (NoteViewHolder) holder;
-                noteViewHolder.textNote.setText(itemViewNote.getNoteText());
-                noteViewHolder.linearLayoutNote.setBackgroundColor(itemViewNote.getNoteColor());
-                noteViewHolder.position = position;
+                noteViewHolder.bind(itemViewNote, position);
                 break;
             }
         }
@@ -91,97 +95,104 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        if (mItems == null) {
+            return 0;
+        } else
+            return mItems.size();
     }
 
-   //Note خاص بعنصر ال ViewHolder
+    //Note خاص بعنصر ال ViewHolder
     public static class NoteViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout linearLayoutNote;
-        TextView textNote;
         int position;
+        ItemNoteBinding binding;
 
-        public NoteViewHolder(@NonNull View itemView, ItemClickListener itemClickListener, ItemLongClickListener itemLongClickListener) {
-            super(itemView);
-            linearLayoutNote = itemView.findViewById(R.id.LinearLayoutNote);
-            textNote = itemView.findViewById(R.id.textView_Note);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
+        public NoteViewHolder(@NonNull ItemNoteBinding binding, ItemClickListener itemClickListener, ItemLongClickListener itemLongClickListener) {
+            super(binding.getRoot());
+            this.binding = binding;
+            binding.LinearLayoutNote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     itemClickListener.onClickItem(position);
                 }
             });
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            binding.LinearLayoutNote.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     itemLongClickListener.onLongClickItem(position);
                     return true;
                 }
             });
+        }
+
+        void bind(ItemViewNote itemViewNote, int position) {
+            this.position = position;
+            binding.setItemViewNote(itemViewNote);
         }
     }
 
     //CheckBox خاص بعنصر ال ViewHolder
     public static class CheckBoxViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout linearLayoutCheck;
-        TextView textCheck;
-        CheckBox checkBox;
         int position;
+        ItemNoteCheckBinding binding;
 
-        public CheckBoxViewHolder(@NonNull View itemView, ItemClickListener itemClickListener, ItemLongClickListener itemLongClickListener,CheckBoxListener checkBoxListener) {
-            super(itemView);
-            linearLayoutCheck = itemView.findViewById(R.id.LinearLayoutCheckBox);
-            textCheck = itemView.findViewById(R.id.textView_Checkbox);
-            checkBox = itemView.findViewById(R.id.checkBox);
+        public CheckBoxViewHolder(@NonNull ItemNoteCheckBinding binding, ItemClickListener itemClickListener, ItemLongClickListener itemLongClickListener, CheckBoxListener checkBoxListener) {
+            super(binding.getRoot());
+            this.binding = binding;
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            binding.LinearLayoutCheckBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     itemClickListener.onClickItem(position);
                 }
             });
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            binding.LinearLayoutCheckBox.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     itemLongClickListener.onLongClickItem(position);
                     return true;
                 }
             });
-            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            binding.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                    checkBoxListener.onCheckBox(position,isChecked);
+                public void onClick(View view) {
+                    checkBoxListener.onCheckBox(position);
                 }
             });
+        }
+
+        void bind(ItemViewCheckBox itemViewCheckBox, int position) {
+            this.position = position;
+            binding.setItemViewCheckBox(itemViewCheckBox);
         }
     }
 
     //Photo خاص بعنصر ال ViewHolder
     public static class PhotoViewHolder extends RecyclerView.ViewHolder {
-        ImageView photoImageView;
-        LinearLayout linearLayoutPhoto;
-        TextView textPhoto;
         int position;
+        ItemNotePhotoBinding binding;
 
-        public PhotoViewHolder(@NonNull View itemView, ItemClickListener itemClickListener, ItemLongClickListener itemLongClickListener) {
-            super(itemView);
-            photoImageView = itemView.findViewById(R.id.item_photo_imageView);
-            linearLayoutPhoto = itemView.findViewById(R.id.LinearLayoutPhoto);
-            textPhoto = itemView.findViewById(R.id.textView_Photo);
+        public PhotoViewHolder(@NonNull ItemNotePhotoBinding binding, ItemClickListener itemClickListener, ItemLongClickListener itemLongClickListener) {
+            super(binding.getRoot());
+            this.binding = binding;
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            binding.LinearLayoutPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     itemClickListener.onClickItem(position);
                 }
             });
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            binding.LinearLayoutPhoto.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     itemLongClickListener.onLongClickItem(position);
                     return true;
                 }
             });
+        }
+
+        void bind(ItemViewPhoto itemViewPhoto, int position) {
+            this.position = position;
+            binding.setItemViewPhototh(itemViewPhoto);
         }
     }
 
@@ -195,4 +206,11 @@ public class NotesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         } else
             return ITEM_VIEW_TYPE_NOTE;
     }
+
+    // ارجاع ملاحضة في موضع معين في ال adapter
+    public ItemViewNote getNoteAtPositions(int position) {
+        return mItems.get(position);
+    }
+
+
 }

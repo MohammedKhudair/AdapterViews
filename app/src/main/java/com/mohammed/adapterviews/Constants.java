@@ -6,6 +6,7 @@ public class Constants {
     public static final String NOTE_COLOR = "NOTE_COLOR";
     public static final String NOTE_TYPE = "NOTE_TYPE";
     public static final String NOTE_CHECK_BOX ="NOTE_CHECK_BOX";
-
     public static final String ITEM_POSITION = "ITEM_POSITION";
+
+    public static final String NOTE_ID = "NOTE_ID";
 }

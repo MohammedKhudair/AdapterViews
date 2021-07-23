@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Notes App</string>
+    <string name="app_name">Note App</string>
     <string name="add_new_item_description">يمكنك  إضافة ملاحظة إلى القائمة و اختيار نوع ولون الملاحظة.</string>
     <string name="add">اضافة</string>
     <string name="add_note_text">أضف ملاحظة</string>
@@ -12,4 +12,6 @@
     <string name="no_data_selected">لم يتم اختيار اي بيانات</string>
     <string name="make_sure_to_write_a_note">تاكد من كتابة ملاحضة</string>
     <string name="make_sure_to_write_a_note_and_photo">تاكد من كتابة ملاحضة واستيراد صورة</string>
+    <string name="delete_all">هل انت متاكد من ازالة جميع الملاحضات من القائمة 🤔</string>
+    <string name="deleted_done">Deleted! 😱</string>
 </resources>
