@@ -40,12 +40,19 @@ public class NotePhotoDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             uri = intent.getParcelableExtra(MainActivity.EXTRA_PHOTO_URI);
-            binding.photoImageView.setImageURI(uri);
+
+            try {
+                binding.photoImageView.setImageURI(uri);
+            } catch (SecurityException e) {
+                binding.photoImageView.setImageResource(R.drawable.ic_photo);
+                Toast.makeText(this, R.string.im_dose_not_exist, Toast.LENGTH_SHORT).show();
+            }
+
             noteText = intent.getStringExtra(MainActivity.EXTRA_NOTE_TEXT);
             binding.photoNoteEditText.setText(noteText);
             noteColor = intent.getIntExtra(MainActivity.EXTRA_COLOR, 0);
             binding.PhotoRelativeLayout.setBackgroundColor(noteColor);
-            noteId = intent.getIntExtra(MainActivity.EXTRA_NOTE_ID,-1);
+            noteId = intent.getIntExtra(MainActivity.EXTRA_NOTE_ID, -1);
         }
 
         binding.photoImageView.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +79,7 @@ public class NotePhotoDetailsActivity extends AppCompatActivity {
             intent.putExtra(Constants.NOTE_TEXT, noteText);
             intent.putExtra(Constants.NOTE_COLOR, noteColor);
             intent.putExtra(Constants.NOTE_TYPE, AddNewNoteActivity.ACTIVITY_NOTE_TYPE_PHOTO_NOTE);
-            intent.putExtra(Constants.NOTE_ID,noteId);
+            intent.putExtra(Constants.NOTE_ID, noteId);
 
             setResult(RESULT_OK, intent);
             finish();

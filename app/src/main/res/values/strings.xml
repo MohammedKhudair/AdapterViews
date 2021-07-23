@@ -14,4 +14,5 @@
     <string name="make_sure_to_write_a_note_and_photo">تاكد من كتابة ملاحضة واستيراد صورة</string>
     <string name="delete_all">هل انت متاكد من ازالة جميع الملاحضات من القائمة 🤔</string>
     <string name="deleted_done">Deleted! 😱</string>
+    <string name="im_dose_not_exist">الصوره غير موجودة</string>
 </resources>
